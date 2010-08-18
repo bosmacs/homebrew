@@ -15,14 +15,14 @@ class SoftwareSpecification
   attr_reader :url, :specs, :using
 
   VCS_SYMBOLS = {
-    :bzr,     BazaarDownloadStrategy,
-    :curl,    CurlDownloadStrategy,
-    :cvs,     CVSDownloadStrategy,
-    :git,     GitDownloadStrategy,
-    :hg,      MercurialDownloadStrategy,
-    :nounzip, NoUnzipCurlDownloadStrategy,
-    :post,    CurlPostDownloadStrategy,
-    :svn,     SubversionDownloadStrategy,
+    :bzr     => BazaarDownloadStrategy,
+    :curl    => CurlDownloadStrategy,
+    :cvs     => CVSDownloadStrategy,
+    :git     => GitDownloadStrategy,
+    :hg      => MercurialDownloadStrategy,
+    :nounzip => NoUnzipCurlDownloadStrategy,
+    :post    => CurlPostDownloadStrategy,
+    :svn     => SubversionDownloadStrategy,
   }
 
   def initialize url, specs=nil
@@ -291,6 +291,16 @@ class Formula
     opoo "LLVM was requested, but this formula is reported as not working with LLVM:"
     puts msg
     puts "Tested with LLVM build #{build}" unless build == nil
+    puts
+
+    if ARGV.force?
+      puts "Continuing anyway. If this works, let us know so we can update the\n"+
+           "formula to remove the warning."
+    else
+      puts "Continuing with GCC 4.2 instead.\n"+
+           "(Use `brew install --force ...` to force use of LLVM.)"
+      ENV.gcc_4_2
+    end
   end
 
 protected
